@@ -205,8 +205,6 @@ const {
       console.log("Calling getPostsByTagName with #happy");
     const postsWithHappy = await getPostsByTagName("#happy");
     console.log("Result:", postsWithHappy);
-
-    
   }
   
   
