@@ -1,7 +1,20 @@
-const { Client } = require('pg') // imports the pg module
 
+
+const express = require('express')
+const {Client} = require('pg') // imports the pg module
+const app = express();
 const client = new Client('postgres://localhost:5432/juicebox_dev');
 
+app.get("/",async(req, res) => {
+  const response = await client.query('SELECT * from users;');
+  res.send(response);
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`App listening in port ${PORT}`);
+});
 /**
  * USER Methods
  */
@@ -294,5 +307,6 @@ module.exports = {
   addTagsToPost,
   createPostTag,
   getPostById,
+  
 }
    

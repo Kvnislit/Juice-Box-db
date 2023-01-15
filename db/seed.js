@@ -1,4 +1,5 @@
 
+
 const {  
     client,
     createUser,
@@ -14,6 +15,7 @@ const {
     getPostById
   } = require('./index');
   
+
 
   async function dropTables() {
     try {
@@ -65,7 +67,6 @@ const {
              UNIQUE ("postId", "tagId")
           );
       `);
-  
       console.log("Finished building tables!");
     } catch (error) {
       console.error("Error building tables!");
