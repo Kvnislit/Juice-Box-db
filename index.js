@@ -1,13 +1,15 @@
 // inside index.js
-const PORT = 3000;
 const express = require('express');
-const server = express();
-
 const morgan = require('morgan');
-server.use(morgan('dev'));
+const server = express();
+const PORT = 3000;
 
+server.use(morgan('dev'));
 server.use(express.json())
 
+require('dotenv').config();
+
+//console.log(process.env.JWT_SECRET);
 
 const apiRouter = require('./api');
 server.use('/api', apiRouter);
