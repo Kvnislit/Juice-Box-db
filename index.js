@@ -26,8 +26,10 @@ server.get('/add/:first/to/:second', (req, res, next) => {
 const apiRouter = require('./api');
 server.use('/api', apiRouter);
 
-const { client } = require('./db');
+const { client, client } = require('./db');
 client.connect();
+
+const client = new client(process.env.DATABASE_URL);
 
 server.listen(PORT, () => {
   console.log('The server is up on port', PORT)
