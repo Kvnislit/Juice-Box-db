@@ -1,8 +1,11 @@
 // api/users.js
 const express = require('express');
 const usersRouter = express.Router();
-const { getAllUsers, createUser, getUserByUsername } = require('../db');
+const { getAllUsers, createUser, getUserByUsername, updateUser, getUserById,
+} = require('../db');
 const jwt = require('jsonwebtoken')
+const { requireUser } = require('./utils');
+
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
@@ -91,5 +94,29 @@ usersRouter.post('/login', async (req, res, next) => {
       next({ name, message })
     } 
   });
+
+  usersRouter.delete('/:userId', requireUser, async (req, res, next) => {
+    try {
+      const user = await getUserById(req.params.username);
+    
+        if (user.id === req.user.id) {
+          const deleteUser = await updateUser(user.id, { active: false });
+
+          res.send({ user: deleteUser });
+        } else {
+        
+          next(post ? { 
+            name: "UnauthorizedUserError",
+            message: "You cannot delete user"
+          } : {
+            name: "UserNotFoundError",
+            message: "That user does not exist"
+          });
+        }
+    
+      } catch ({ name, message }) {
+        next({ name, message })
+      }
+    });
   
 module.exports = usersRouter;
